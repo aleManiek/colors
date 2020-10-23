@@ -40,13 +40,9 @@ export const boardSlice = createSlice({
       state.array = board;
       state.isEnd = !isPossibleMove(board);
     },
-    destroyBlocks: (state, action) => {
+    updateBoard: (state, action) => {
       action.payload.map(([x, y]) => (state.array[x][y] = 0));
-    },
-    slideBlocks: (state) => {
       state.array = state.array.map((col) => col.filter((el) => el !== 0));
-    },
-    generateNewBlocks: (state) => {
       state.array.map((col) => {
         const length = col.length;
         const difference = state.height - length;
@@ -54,21 +50,19 @@ export const boardSlice = createSlice({
           for (let i = 0; i < difference; i++) col.push(generateRandomNumber(1, Number(state.colors)));
         }
       });
-      if (!isPossibleMove(state.array)) state.isEnd = true;
+      state.isEnd = !isPossibleMove(state.array);
     },
   },
 });
 
-export const { setColorsAmount, createBoard, destroyBlocks, slideBlocks, generateNewBlocks } = boardSlice.actions;
+export const { setColorsAmount, createBoard, updateBoard } = boardSlice.actions;
 
 export const move = ({ x, y }) => (dispatch, getState) => {
   const { board } = getState();
   const blocks = getBlocksToDestroy(x, y, board.array);
   if (blocks) {
     dispatch(addPoints(blocks.length));
-    dispatch(destroyBlocks(blocks));
-    dispatch(slideBlocks());
-    dispatch(generateNewBlocks());
+    dispatch(updateBoard(blocks));
   }
 };
 
