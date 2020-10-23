@@ -12,6 +12,7 @@ const options = [
   { value: 20, dimensions: [4, 5] },
   { value: 24, dimensions: [6, 4] },
   { value: 25, dimensions: [5, 5] },
+  { value: 36, dimensions: [6, 6] },
 ];
 
 export default function Settings() {
