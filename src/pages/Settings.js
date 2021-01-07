@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Button from "../components/Button";
 
-import { setColorsAmount, createBoard, selectPossibleColors } from "../features/board/boardSlice";
+import { setColorsAmount, createBoard, selectPossibleColors, reset } from "../features/board/boardSlice";
+import { resetScore } from "../features/score/scoreSlice";
 
 const options = [
   { value: 9, dimensions: [3, 3] },
@@ -18,6 +19,11 @@ const options = [
 export default function Settings() {
   const possibleColors = useSelector(selectPossibleColors);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(reset());
+    dispatch(resetScore());
+  }, [dispatch]);
 
   const handleColorsPick = (e) => {
     const value = e.target.value;

@@ -52,10 +52,16 @@ export const boardSlice = createSlice({
       });
       state.isEnd = !isPossibleMove(state.array);
     },
+    reset: (state) => {
+      state.colors = 0;
+      state.height = 0;
+      state.array = [];
+      state.isEnd = false;
+    },
   },
 });
 
-export const { setColorsAmount, createBoard, updateBoard } = boardSlice.actions;
+export const { setColorsAmount, createBoard, updateBoard, reset } = boardSlice.actions;
 
 export const move = ({ x, y }) => (dispatch, getState) => {
   const { board } = getState();
