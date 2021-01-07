@@ -3,6 +3,7 @@ import GlobalStyle from "./GlobalStyle";
 import Welcome from "./pages/Welcome";
 import Settings from "./pages/Settings";
 import Game from "./pages/Game";
+import Scores from "./pages/Scores";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/game">
             <Game />
+          </Route>
+          <Route path="/scores">
+            <Scores />
           </Route>
           <Route>
             <Welcome />

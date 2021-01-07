@@ -9,6 +9,8 @@ export default function Welcome() {
         Welcome To <Colors>Colors</Colors> Game
       </Text>
       <Button text="New Game" href="/settings" />
+      <br />
+      <Button text="Scores" href="/scores" />
     </Container>
   );
 }

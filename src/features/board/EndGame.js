@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import "firebase/firestore";
-import { useFirestoreDoc, useFirebaseApp } from "reactfire";
+import { useFirebaseApp } from "reactfire";
 import { useSelector } from "react-redux";
 import { selectIsEnd } from "./boardSlice";
 import { selectScore } from "../score/scoreSlice";
@@ -11,8 +11,10 @@ export default function EndGame() {
   const isEnd = useSelector(selectIsEnd);
   const score = useSelector(selectScore);
   const [name, setName] = useState("");
+  const [success, setSuccess] = useState(false);
   const firebase = useFirebaseApp();
   const firestore = firebase.firestore();
+
   const sendScore = () => {
     if (name.length > 1) {
       firestore
@@ -21,7 +23,7 @@ export default function EndGame() {
           name: name,
           score: score,
         })
-        .then((e) => console.log(e.id))
+        .then((e) => setSuccess(true))
         .catch((err) => console.log("err: " + err));
     }
   };
@@ -30,20 +32,30 @@ export default function EndGame() {
     isEnd && (
       <StyledBackgrond>
         <Border>
-          <Container>
-            Your Score is {score} <br />
-            If you want to save your score, provide your name below and click save <br />
-            <br />
-            <FormInput onChange={(e) => setName(e.target.value)} />
-            <StyledButton onClick={sendScore}>Send</StyledButton>
-            <br />
-            <br />
-            Or Start{" "}
-            <Link style={{ color: "white" }} to="/settings">
-              {" "}
-              New Game
-            </Link>
-          </Container>
+          {success ? (
+            <Container>
+              Success! <br />
+              check your position in ranking{" "}
+              <Link style={{ color: "white" }} to="/scores">
+                Here
+              </Link>
+            </Container>
+          ) : (
+            <Container>
+              Your Score is {score} <br />
+              If you want to save your score, provide your name below and click save <br />
+              <br />
+              <FormInput onChange={(e) => setName(e.target.value)} />
+              <StyledButton onClick={sendScore}>Send</StyledButton>
+              <br />
+              <br />
+              Or Start{" "}
+              <Link style={{ color: "white" }} to="/settings">
+                {" "}
+                New Game
+              </Link>
+            </Container>
+          )}
         </Border>
       </StyledBackgrond>
     )
